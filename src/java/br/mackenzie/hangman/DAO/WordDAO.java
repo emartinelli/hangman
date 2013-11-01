@@ -107,8 +107,22 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         Word word = null;
         try {
+            connection = ConnectionHangman.getInstance().getConnection();
             
-        } catch (Exception e) {
+            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE IDWORD = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()){
+                word = new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
         }
         return word;
     }
