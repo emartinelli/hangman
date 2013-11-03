@@ -1,0 +1,11 @@
+Sun Nov 03 19:42:39 BRST 2013 : Apache Derby Servidor de Rede - 10.9.1.0 - (1344872) iniciado e pronto para aceitar conexões na porta 1527 em {3}
+----------------------------------------------------------------
+Sun Nov 03 19:46:27 BRST 2013:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instância a816c00e-0142-1fea-e496-fffffe38a110
+no diretório de banco de dados G:\Mackenzie\4º Semestre\LP2\HangMan\Hangman\bd\HANGMAN  
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_25-b17
+user.dir=C:\Program Files\glassfish-4.0\javadb
+derby.system.home=G:\Mackenzie\4º Semestre\LP2\HangMan\Hangman\bd
+Carregador de classe do banco de dados iniciado - derby.database.classpath=''

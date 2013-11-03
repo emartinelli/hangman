@@ -24,7 +24,7 @@ public class PlayerDAO implements GenericDAO<Player>{
             preparedStatement.setString(1, player.getNickname());
             preparedStatement.setString(2, player.getPassword());
             preparedStatement.setBoolean(3, player.isAdmin());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             connection.close();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,10 +41,11 @@ public class PlayerDAO implements GenericDAO<Player>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HANGMAN_DB.PLAYER SET NICKNAME = ? , SET PASSWORD = ? WHERE IDPLAYER = ?";
+            String sql = "UPDATE HANGMAN_DB.PLAYER SET NICKNAME = ? , SET PASSWORD = ? , SET ISADMIN = ? WHERE IDPLAYER = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, player.getNickname());
             preparedStatement.setString(2, player.getPassword());
+            preparedStatement.setBoolean(3, player.isAdmin());
             preparedStatement.setInt(3, player.getCodigo());
             preparedStatement.executeUpdate();
             connection.close();
@@ -62,17 +63,70 @@ public class PlayerDAO implements GenericDAO<Player>{
 
     @Override
     public void deletar(Integer id) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "DELETE FROM HANGMAN_DB.PLAYER WHERE IDPLAYER = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            connection.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Inserção não realizada!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Inserção não realizada!");
+        }
     }
 
     @Override
     public List<Player> listarTodos() throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        List<Player> players = new ArrayList<Player>();
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT * FROM HANGMAN_DB.PLAYER";
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery(sql);
+            
+            while (result.next()){
+                players.add(new Player(result.getInt("IDPLAYER"), result.getString("NICKNAME"), result.getString("PASSWORD")));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Inserção não realizada!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Inserção não realizada!");
+        }
+        return players;
     }
 
     @Override
     public Player buscarPorId(Integer id) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        Player player = null;
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT * FROM HANGMAN_DB.PLAYER WHERE IDPLAYER = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet result = preparedStatement.executeQuery();
+            while(result.next()){
+                player = new Player(result.getInt("IDPLAYER"), result.getString("NICKNAME"),result.getString("PASSWORD"));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Inserção não realizada!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Inserção não realizada!");
+        }
+        return player;
     }
     
 }
