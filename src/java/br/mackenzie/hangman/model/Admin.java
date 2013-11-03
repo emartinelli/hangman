@@ -15,6 +15,7 @@ public class Admin extends Player{
 
     public Admin(String nickname, String password) {
         super(nickname, password);
+        this.setAdmin(true);
     }
     
 }

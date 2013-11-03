@@ -11,13 +11,23 @@ package br.mackenzie.hangman.model;
 public class Player {
     private String nickname;
     private String password;
+    private boolean admin;
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+    
     public Player() {
     }
 
     public Player(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
+        this.admin = false;
     }
 
     public String getNickname() {
