@@ -1,0 +1,25 @@
+Sat Nov 02 21:59:34 BRST 2013 : Apache Derby Servidor de Rede - 10.9.1.0 - (1344872) iniciado e pronto para aceitar conexões na porta 1527 em {3}
+----------------------------------------------------------------
+Sat Nov 02 22:00:31 BRST 2013:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instância a816c00e-0142-1b41-e9b3-00000994f08e
+no diretório de banco de dados C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd\hangman_db  
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_40-b43
+user.dir=C:\Program Files\glassfish-4.0\javadb
+derby.system.home=C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd
+Carregador de classe do banco de dados iniciado - derby.database.classpath=''
+----------------------------------------------------------------
+Sat Nov 02 22:00:40 BRST 2013:
+Encerrando a instância a816c00e-0142-1b41-e9b3-00000994f08e
+Sat Nov 02 22:00:40 BRST 2013 Thread[DRDAConnThread_4,5,main] (DATABASE = hangman_db), (DRDAID = {2}), Banco de dados 'hangman_db' fechado.
+----------------------------------------------------------------
+Sat Nov 02 22:01:04 BRST 2013:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instância 45b300a8-0142-1b41-e9b3-00000994f08e
+no diretório de banco de dados C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd\hangman_db  
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_40-b43
+user.dir=C:\Program Files\glassfish-4.0\javadb
+derby.system.home=C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd
+Carregador de classe do banco de dados iniciado - derby.database.classpath=''
