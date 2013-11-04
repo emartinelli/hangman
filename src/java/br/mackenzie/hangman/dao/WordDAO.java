@@ -1,4 +1,4 @@
-package br.mackenzie.hangman.DAO;
+package br.mackenzie.hangman.dao;
 
 import br.mackenzie.hangman.model.Word;
 import br.mackenzie.hangman.exception.PersistenceException;
@@ -19,7 +19,7 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "INSERT INTO HAGMAN_DB.WORD (NOME,ERRORFREQUENCY) VALUES (?)(?)";
+            String sql = "INSERT INTO HAGMAN_DB.WORD (NOME,ERRORFREQUENCY) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, word.getRealWord());
             preparedStatement.setFloat(2, word.getErrorFrequency());
@@ -27,11 +27,11 @@ public class WordDAO implements GenericDAO<Word>{
             connection.close();
 
         }catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Inserção não realizada!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Inserção não realizada!");
         }
     }
@@ -41,19 +41,20 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HAGMAN_DB.WORD SET (NOME,ERRORFREQUENCY) VALUES (?)(?)";
+            String sql = "UPDATE HAGMAN_DB.WORD SET NOME = ? , ERRORFREQUENCY = ? WHERE IDWORD = ?  ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, word.getRealWord());
             preparedStatement.setFloat(2, word.getErrorFrequency());
+            preparedStatement.setInt(3,word.getCodigo());
             preparedStatement.executeUpdate();
             connection.close();
 
         }catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Inserção não realizada!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Inserção não realizada!");
         }
     }
@@ -69,11 +70,11 @@ public class WordDAO implements GenericDAO<Word>{
             preparedStatement.executeUpdate();
             connection.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível excluir o registro!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível excluir o registro!");
         }
     }
@@ -89,14 +90,14 @@ public class WordDAO implements GenericDAO<Word>{
             ResultSet result = select.executeQuery(sql);
             
             while (result.next()){
-                words.add(new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY")));
+                words.add(new Word(result.getInt("IDWORD"), result.getString("WORD"), result.getFloat("ERRORFREQUENCY")));
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível listar todos!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível listar todos!");
         }
         return words;
@@ -114,14 +115,14 @@ public class WordDAO implements GenericDAO<Word>{
             preparedStatement.setInt(1, id);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
-                word = new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
+                word = new Word(result.getInt("IDWORD"), result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível listar todos!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(br.mackenzie.hangman.dao.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível listar todos!");
         }
         return word;

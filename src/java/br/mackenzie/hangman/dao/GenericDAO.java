@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.mackenzie.hangman.DAO;
+package br.mackenzie.hangman.dao;
 
 import br.mackenzie.hangman.exception.PersistenceException; 
 import java.util.List;

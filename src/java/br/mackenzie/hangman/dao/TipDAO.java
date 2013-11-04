@@ -1,1 +1,1 @@
-package br.mackenzie.hangman.DAO;
+package br.mackenzie.hangman.dao;

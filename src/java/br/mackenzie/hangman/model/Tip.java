@@ -9,6 +9,7 @@ package br.mackenzie.hangman.model;
  * @author 31281354
  */
 public class Tip {
+    int codigo;
     private String information;
 
     public Tip() {
@@ -25,4 +26,13 @@ public class Tip {
     public void setInformation(String information) {
         this.information = information;
     }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+    
 }
