@@ -46,7 +46,7 @@ public class PlayerDAO implements GenericDAO<Player>{
             preparedStatement.setString(1, player.getNickname());
             preparedStatement.setString(2, player.getPassword());
             preparedStatement.setBoolean(3, player.isAdmin());
-            preparedStatement.setInt(3, player.getCodigo());
+            //preparedStatement.setInt(3, player.getCodigo());
             preparedStatement.executeUpdate();
             connection.close();
 
@@ -92,7 +92,7 @@ public class PlayerDAO implements GenericDAO<Player>{
             ResultSet result = select.executeQuery(sql);
             
             while (result.next()){
-                players.add(new Player(result.getInt("IDPLAYER"), result.getString("NICKNAME"), result.getString("PASSWORD")));
+                players.add(new Player(result.getString("NICKNAME"), result.getString("PASSWORD")));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +116,7 @@ public class PlayerDAO implements GenericDAO<Player>{
             preparedStatement.setInt(1, id);
             ResultSet result = preparedStatement.executeQuery();
             while(result.next()){
-                player = new Player(result.getInt("IDPLAYER"), result.getString("NICKNAME"),result.getString("PASSWORD"));
+                player = new Player(result.getString("NICKNAME"),result.getString("PASSWORD"));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);

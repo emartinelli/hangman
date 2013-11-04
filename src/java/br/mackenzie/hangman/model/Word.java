@@ -10,7 +10,6 @@ package br.mackenzie.hangman.model;
  * @author 31281354
  */
 public class Word {
-    int codigo;
     private String realWord;
     private Float errorFrequency; //  = GameOvers/Sessions*100
 
@@ -22,20 +21,6 @@ public class Word {
         this.errorFrequency = errorFrequency;
     }
     
-    public Word(int codigo, String realWord, Float errorFrequency){
-        this.codigo = codigo;
-        this.realWord = realWord;
-        this.errorFrequency = errorFrequency;
-    }
-    
-    public void setCodigo(int codigo){
-        this.codigo = codigo;
-    }
-    
-    public int getCodigo(){
-        return codigo;
-    }
-
     public String getRealWord() {
         return realWord;
     }

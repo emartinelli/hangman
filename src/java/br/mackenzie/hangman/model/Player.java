@@ -9,7 +9,6 @@ package br.mackenzie.hangman.model;
  * @author 31281354
  */
 public class Player {
-    int codigo;
     private String nickname;
     private String password;
     private boolean admin;
@@ -31,13 +30,6 @@ public class Player {
         this.admin = false;
     }
     
-    public Player (int codigo,String nickname, String password){
-        this.codigo = codigo;
-        this.nickname = nickname;
-        this.password = password;
-        this.admin = false;
-    }
-
     public String getNickname() {
         return nickname;
     }
@@ -54,12 +46,5 @@ public class Player {
         this.password = password;
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
     
 }

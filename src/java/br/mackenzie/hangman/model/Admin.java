@@ -13,8 +13,8 @@ public class Admin extends Player{
     public Admin() {
     }
 
-    public Admin(int codigo, String nickname, String password) {
-        super(codigo,nickname, password);
+    public Admin(String nickname, String password) {
+        super(nickname, password);
         this.setAdmin(true);
     }
     
