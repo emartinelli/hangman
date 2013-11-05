@@ -10,12 +10,14 @@ package br.mackenzie.hangman.model;
  */
 public class Tip {
     private String information;
+    private Word word;
 
     public Tip() {
     }
 
-    public Tip(String information) {
+    public Tip(String information,Word word) {
         this.information = information;
+        this.word = word;
     }
 
     public String getInformation() {
@@ -25,5 +27,15 @@ public class Tip {
     public void setInformation(String information) {
         this.information = information;
     }
+
+    public Word getWord() {
+        return word;
+    }
+
+    public void setWord(Word word) {
+        this.word = word;
+    }
+    
+    
     
 }

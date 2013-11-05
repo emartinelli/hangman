@@ -30,6 +30,7 @@ public class Player {
         this.admin = false;
     }
     
+    
     public String getNickname() {
         return nickname;
     }

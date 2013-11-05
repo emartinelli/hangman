@@ -23,7 +23,7 @@ public class PlayerDAO implements GenericDAO<Player>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, player.getNickname());
             preparedStatement.setString(2, player.getPassword());
-            preparedStatement.setBoolean(3, player.isAdmin());
+            preparedStatement.setInt(3, player.isAdmin()? 1:0);
             preparedStatement.executeUpdate();
             connection.close();
         } catch (ClassNotFoundException ex) {
@@ -41,43 +41,43 @@ public class PlayerDAO implements GenericDAO<Player>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HANGMAN_DB.PLAYER SET NICKNAME = ? , SET PASSWORD = ? , SET ISADMIN = ? WHERE IDPLAYER = ?";
+            String sql = "UPDATE HANGMAN_DB.PLAYER SET PASSWORD = ? , SET ISADMIN = ? WHERE NICKNAME = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, player.getNickname());
-            preparedStatement.setString(2, player.getPassword());
-            preparedStatement.setBoolean(3, player.isAdmin());
+            preparedStatement.setString(3, player.getNickname());
+            preparedStatement.setString(1, player.getPassword());
+            preparedStatement.setInt(2, player.isAdmin()? 1:0);
             //preparedStatement.setInt(3, player.getCodigo());
             preparedStatement.executeUpdate();
             connection.close();
 
         }catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Atualização não realizada!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Atualização não realizada!");
         }
           
     }
 
-    @Override
-    public void deletar(Integer id) throws PersistenceException {
+    
+    public void deletar(String name) throws PersistenceException {
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "DELETE FROM HANGMAN_DB.PLAYER WHERE IDPLAYER = ?";
+            String sql = "DELETE FROM HANGMAN_DB.PLAYER WHERE NICKNAME = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
             connection.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível excluir o registro!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível excluir o registro!");
         }
     }
 
@@ -95,38 +95,43 @@ public class PlayerDAO implements GenericDAO<Player>{
                 players.add(new Player(result.getString("NICKNAME"), result.getString("PASSWORD")));
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
         }
         return players;
     }
 
     @Override
-    public Player buscarPorId(Integer id) throws PersistenceException {
+    public Player buscarPorNome(String name) throws PersistenceException {
         Connection connection = null;
         Player player = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "SELECT * FROM HANGMAN_DB.PLAYER WHERE IDPLAYER = ?";
+            String sql = "SELECT * FROM HANGMAN_DB.PLAYER WHERE NICKNAME = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, name);
             ResultSet result = preparedStatement.executeQuery();
             while(result.next()){
                 player = new Player(result.getString("NICKNAME"),result.getString("PASSWORD"));
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar!");
         }
         catch ( SQLException ex) {
-            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar!");
         }
         return player;
+    }
+
+    @Override
+    public void deletar(Integer id) throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

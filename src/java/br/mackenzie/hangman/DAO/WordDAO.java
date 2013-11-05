@@ -19,7 +19,7 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "INSERT INTO HAGMAN_DB.WORD (NOME,ERRORFREQUENCY) VALUES (?,?)";
+            String sql = "INSERT INTO HAGMAN_DB.WORD (WORD,ERRORFREQUENCY) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, word.getRealWord());
             preparedStatement.setFloat(2, word.getErrorFrequency());
@@ -41,32 +41,30 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HAGMAN_DB.WORD SET NOME = ? , ERRORFREQUENCY = ? WHERE IDWORD = ?  ";
+            String sql = "UPDATE HAGMAN_DB.WORD SET ERRORFREQUENCY = ? WHERE WORD = ?  ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, word.getRealWord());
-            preparedStatement.setFloat(2, word.getErrorFrequency());
-            //preparedStatement.setInt(3,word.getCodigo());
+            preparedStatement.setString(2, word.getRealWord());
+            preparedStatement.setFloat(1, word.getErrorFrequency());
             preparedStatement.executeUpdate();
             connection.close();
 
         }catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            throw new PersistenceException("Atualização não realizada!");
         }
         catch ( SQLException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Inserção não realizada!");
+            throw new PersistenceException("Atualização não realizada!");
         }
     }
 
-    @Override
-    public void deletar(Integer id) throws PersistenceException {
+    public void deletar(String name) throws PersistenceException {
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "DELETE FROM HANGMAN_DB.WORD WHERE IDWORD = ?";
+            String sql = "DELETE FROM HANGMAN_DB.WORD WHERE WORD = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
             connection.close();
         } catch (ClassNotFoundException ex) {
@@ -104,28 +102,55 @@ public class WordDAO implements GenericDAO<Word>{
     }
 
     @Override
-    public Word buscarPorId(Integer id) throws PersistenceException {
+    public Word buscarPorNome(String name) throws PersistenceException {
         Connection connection = null;
         Word word = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
             
-            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE IDWORD = ?";
+            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE WORD = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, name);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
                 word = new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Não foi possível listar todos!");
+            throw new PersistenceException("Não foi possível burcar!");
         }
         catch ( SQLException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Não foi possível listar todos!");
+            throw new PersistenceException("Não foi possível burcar!");
         }
         return word;
+    }
+    
+    public int retornaId (Word word) throws PersistenceException{
+        Connection connection = null;
+        int id;
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            
+            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE WORD = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, word.getRealWord());
+            ResultSet result = preparedStatement.executeQuery();
+            id = result.getInt("IDWORD");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível burcar!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível burcar!");
+        }
+        return id;
+    }
+
+    @Override
+    public void deletar(Integer id) throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

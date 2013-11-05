@@ -1,5 +1,9 @@
 package br.mackenzie.hangman.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -12,13 +16,32 @@ package br.mackenzie.hangman.model;
 public class Word {
     private String realWord;
     private Float errorFrequency; //  = GameOvers/Sessions*100
+    List<Tip> tips = new ArrayList<Tip>();
 
+    public List<Tip> getTips() {
+        return tips;
+    }
+
+    public void setTips(List<Tip> tips) {
+        this.tips = tips;
+    }
+    
+    public Tip getRandomTip() {
+        Random rand = new Random();
+        return tips.get(rand.nextInt(tips.size()));
+    }
+    
+    public void setTip(Tip tip) {
+        tips.add(tip);
+    }
+   
     public Word() {
     }
 
     public Word(String realWord, Float errorFrequency) {
         this.realWord = realWord;
         this.errorFrequency = errorFrequency;
+        
     }
     
     public String getRealWord() {
@@ -36,4 +59,5 @@ public class Word {
     public void setErrorFrequency(Float errorFrequency) {
         this.errorFrequency = errorFrequency;
     }
+    
 }
