@@ -1,21 +1,7 @@
-Tue Nov 05 16:34:42 BRST 2013 : Apache Derby Servidor de Rede - 10.8.1.2 - (1095077) iniciado e pronto para aceitar conexões na porta 1527 em {3}
+Wed Nov 06 16:32:27 BRST 2013 : Apache Derby Servidor de Rede - 10.8.1.2 - (1095077) iniciado e pronto para aceitar conexões na porta 1527 em {3}
 ----------------------------------------------------------------
-Tue Nov 05 16:35:14 BRST 2013:
- Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instância a816c00e-0142-298b-9524-00001f10071e
-no diretório de banco de dados E:\Mackenzie\4º Semestre\LP2\HangMan\Hangman_Projeto\Hangman\bd\HANGMAN_DB  
-
-java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_13-b20
-user.dir=C:\Program Files (x86)\glassfish-3.1.2.2\javadb
-derby.system.home=E:\Mackenzie\4º Semestre\LP2\HangMan\Hangman_Projeto\Hangman\bd
-Carregador de classe do banco de dados iniciado - derby.database.classpath=''
-----------------------------------------------------------------
-Tue Nov 05 16:35:15 BRST 2013:
-Encerrando a instância a816c00e-0142-298b-9524-00001f10071e
-Tue Nov 05 16:35:15 BRST 2013 Thread[DRDAConnThread_3,5,main] (DATABASE = HANGMAN_DB), (DRDAID = {2}), Banco de dados 'HANGMAN_DB' fechado.
-----------------------------------------------------------------
-Tue Nov 05 16:35:29 BRST 2013:
- Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instância 6c44409f-0142-298b-9524-00001f10071e
+Wed Nov 06 16:32:28 BRST 2013:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instância a816c00e-0142-2eaf-e0b4-00001f10071e
 no diretório de banco de dados E:\Mackenzie\4º Semestre\LP2\HangMan\Hangman_Projeto\Hangman\bd\HANGMAN_DB  
 
 java.vendor=Oracle Corporation

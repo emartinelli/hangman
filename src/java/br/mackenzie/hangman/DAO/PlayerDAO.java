@@ -2,6 +2,7 @@ package br.mackenzie.hangman.DAO;
 
 import br.mackenzie.hangman.model.Player;
 import br.mackenzie.hangman.exception.PersistenceException;
+import br.mackenzie.hangman.model.Admin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,11 +42,11 @@ public class PlayerDAO implements GenericDAO<Player>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HANGMAN_DB.PLAYER SET PASSWORD = ? , SET ISADMIN = ? WHERE NICKNAME = ?";
+            String sql = "UPDATE HANGMAN_DB.PLAYER SET PASSWORD = ? WHERE NICKNAME = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(3, player.getNickname());
             preparedStatement.setString(1, player.getPassword());
-            preparedStatement.setInt(2, player.isAdmin()? 1:0);
+            preparedStatement.setInt(2, player instanceof Admin ? 1:0);
             //preparedStatement.setInt(3, player.getCodigo());
             preparedStatement.executeUpdate();
             connection.close();
@@ -131,6 +132,11 @@ public class PlayerDAO implements GenericDAO<Player>{
 
     @Override
     public void deletar(Integer id) throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Player buscarPorId(Integer id) throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

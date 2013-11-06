@@ -16,6 +16,6 @@ public interface GenericDAO<T> {
     void atualizar(T obj) throws PersistenceException; 
     void deletar(Integer id) throws PersistenceException; 
     List<T> listarTodos() throws PersistenceException; 
-    //T buscarPorId(Integer id) throws PersistenceException;
+    T buscarPorId(Integer id) throws PersistenceException;
     T buscarPorNome (String name) throws PersistenceException;
 }

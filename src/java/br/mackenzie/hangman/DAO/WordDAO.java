@@ -152,5 +152,29 @@ public class WordDAO implements GenericDAO<Word>{
     public void deletar(Integer id) throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+	@Override
+	public Word buscarPorId(Integer id) throws PersistenceException{
+		Connection connection = null;
+		Word word = null;
+		try{
+			connection = ConnectionHangman.getInstance().getConnection();
+			
+			String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE IDWORD = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+				word = new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível burcar!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível burcar!");
+        }
+        return word;
+	}
     
 }

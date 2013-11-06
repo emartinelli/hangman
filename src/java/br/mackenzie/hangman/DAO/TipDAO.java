@@ -78,7 +78,27 @@ public class TipDAO implements GenericDAO <Tip>{
 
     @Override
     public List<Tip> listarTodos() throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Connection connection = null;
+        List<Tip> tips = new ArrayList<Tip>();
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT HANGMAN_DB.TIP.INFORMATION, HANGMAN_DB.TIP.IDWORD FROM HANGMAN_DB.WORD INNER JOIN HANGMAN_DB.WORD ON HANGMAN_DB.TIP.IDWORD = HANGMAN_DB.WORD.IDWORD";
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery(sql);
+            
+            while(result.next()){
+                tips.add(new Tip(result.getString("INFORMATION"),new WordDAO().buscarPorId(result.getInt("IDWORD"))));
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.TipDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.TipDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+		return tips;
     }
 
     @Override
@@ -88,6 +108,11 @@ public class TipDAO implements GenericDAO <Tip>{
 
     @Override
     public void deletar(Integer id) throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Tip buscarPorId(Integer id) throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
