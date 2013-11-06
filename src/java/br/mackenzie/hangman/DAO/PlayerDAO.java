@@ -63,13 +63,13 @@ public class PlayerDAO implements GenericDAO<Player>{
     }
 
     
-    public void deletar(String name) throws PersistenceException {
+    public void deletar(Player player) throws PersistenceException {
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
             String sql = "DELETE FROM HANGMAN_DB.PLAYER WHERE NICKNAME = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, name);
+            preparedStatement.setString(1, player.getNickname());
             preparedStatement.executeUpdate();
             connection.close();
         } catch (ClassNotFoundException ex) {
