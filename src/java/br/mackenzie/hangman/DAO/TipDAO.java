@@ -82,7 +82,7 @@ public class TipDAO implements GenericDAO <Tip>{
         List<Tip> tips = new ArrayList<Tip>();
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "SELECT HANGMAN_DB.TIP.INFORMATION, HANGMAN_DB.TIP.IDWORD FROM HANGMAN_DB.WORD INNER JOIN HANGMAN_DB.WORD ON HANGMAN_DB.TIP.IDWORD = HANGMAN_DB.WORD.IDWORD";
+            String sql = "SELECT HANGMAN_DB.TIP.INFORMATION, HANGMAN_DB.TIP.IDWORD FROM HANGMAN_DB.TIP INNER JOIN HANGMAN_DB.WORD ON HANGMAN_DB.WORD.IDWORD = HANGMAN_DB.TIP.IDWORD";
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery(sql);
             

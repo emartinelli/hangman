@@ -88,7 +88,7 @@ public class AdminDAO implements GenericDAO<Admin>{
         List<Admin> admins = new ArrayList<Admin>();
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "SELECT * FROM HANGMAN_DB.PLAYER";
+            String sql = "SELECT * FROM HANGMAN_DB.PLAYER WHERE ISADMIN = 1";
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery(sql);
             
@@ -113,7 +113,26 @@ public class AdminDAO implements GenericDAO<Admin>{
 
     @Override
     public Admin buscarPorNome(String name) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Connection connection = null;
+        Admin admin = null;
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT * FROM HANGMAN_DB.PLAYER WHERE NICKNAME = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet result = preparedStatement.executeQuery();
+            while(result.next()){
+                admin = new Admin(result.getString("NICKNAME"),result.getString("PASSWORD"));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.AdminDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.AdminDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar!");
+        }
+        return admin;
     }
 
     @Override
