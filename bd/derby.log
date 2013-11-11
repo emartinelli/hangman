@@ -1,11 +1,11 @@
-Wed Nov 06 20:36:36 BRST 2013 : Apache Derby Servidor de Rede - 10.8.2.2 - (1181258) iniciado e pronto para aceitar conexões na porta 1527 em {3}
+Sun Nov 10 09:09:56 BRST 2013 : Apache Derby Servidor de Rede - 10.9.1.0 - (1344872) iniciado e pronto para aceitar conexões na porta 1527 em {3}
 ----------------------------------------------------------------
-Wed Nov 06 20:36:37 BRST 2013:
- Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instância a816c00e-0142-2f8f-6892-00001344548e
-no diretório de banco de dados E:\Mackenzie\4º Semestre\LP2\HangMan\Hangman\bd\HANGMAN_DB  
+Sun Nov 10 22:52:06 BRST 2013:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instância a816c00e-0142-41b4-2cd6-00000994f08e
+no diretório de banco de dados C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd\HANGMAN_DB  
 
 java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_25-b17
-user.dir=C:\Program Files\Java\jdk1.7.0_25\db
-derby.system.home=E:\Mackenzie\4º Semestre\LP2\HangMan\Hangman\bd
+java.runtime.version=1.7.0_40-b43
+user.dir=C:\Program Files\glassfish-4.0\javadb
+derby.system.home=C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd
 Carregador de classe do banco de dados iniciado - derby.database.classpath=''
