@@ -56,9 +56,9 @@
             $.ajax({
                 type: "POST",
                 url: "controller",
-                contentType: "application/json",
+                contentType: "json",
                 data: user,
-                async : false,
+                async: false,
                 beforesend: function() {
                     console.log(user);
                 },

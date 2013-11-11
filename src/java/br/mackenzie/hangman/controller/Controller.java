@@ -47,7 +47,7 @@ public class Controller extends HttpServlet {
             JSONArray array;
             array = (JSONArray) obj;
 
-            out.print("haha");
+            out.print("{'nickname' : 'usertest', 'password': 'paass'}");
             // out.print(array.toString());
         } finally {
             out.close();
