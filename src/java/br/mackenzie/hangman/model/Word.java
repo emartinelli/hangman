@@ -14,6 +14,8 @@ import java.util.Random;
  * @author 31281354
  */
 public class Word {
+    private static int gameovers;
+    private static int sessions;
     private String realWord;
     private Float errorFrequency; //  = GameOvers/Sessions*100
     List<Tip> tips = new ArrayList<Tip>();
@@ -34,7 +36,23 @@ public class Word {
     public void setTip(Tip tip) {
         tips.add(tip);
     }
-   
+
+    public static int getGameovers() {
+        return gameovers;
+    }
+
+    public static void setGameovers(int gameovers) {
+        Word.gameovers = gameovers;
+    }
+
+    public static int getSessions() {
+        return sessions;
+    }
+
+    public static void setSessions(int sessions) {
+        Word.sessions = sessions;
+    }
+    
     public Word() {
     }
 

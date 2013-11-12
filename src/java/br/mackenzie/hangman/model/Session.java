@@ -12,14 +12,16 @@ public class Session {
     private Integer id;
     private Integer time;
     private Integer score;
+    private Player player;
+    private Word word;
 
     public Session() {
     }
-
-    public Session(Integer id, Integer time, Integer score) {
+    public Session(Integer id, Integer time, Player player, Word word) {
         this.id = id;
         this.time = time;
-        this.score = score;
+        this.player = player;
+        this.word = word;
     }
 
     public Integer getId() {
@@ -45,4 +47,22 @@ public class Session {
     public void setScore(Integer score) {
         this.score = score;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Word getWord() {
+        return word;
+    }
+
+    public void setWord(Word word) {
+        this.word = word;
+    }
+    
+    
 }
