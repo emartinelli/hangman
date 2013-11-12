@@ -4,21 +4,27 @@
  */
 package br.mackenzie.hangman.controller;
 
-import br.mackenzie.hangman.DAO.PlayerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author 31281354
+ * @author elvio
  */
-@WebServlet(name = "controller", urlPatterns = {"/controller"})
-public class Controller extends HttpServlet {
+@WebServlet(name = "controllerJson", urlPatterns = {"/controllerJson"})
+public class ControllerJson extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -31,26 +37,19 @@ public class Controller extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException, ParseException {
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+        //out.println(request.getParameter("user"));
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Controlller</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Controlller at " + request.getContextPath() + "</h1>");
-            if (request.getParameter("opcao") != null && "player.auth".equalsIgnoreCase(request.getParameter("opcao"))) {
-                if("true".equalsIgnoreCase(request.getParameter("signup"))) {
-                    request.setAttribute("nickname", new PlayerDAO().buscarPorNome(request.getParameter("nickname")));
-                }
-            }
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(request.getParameter("user"));
+            JSONArray array;
+            array = (JSONArray) obj;
+
+            out.print("{'nickname' : 'usertest', 'password': 'paass'}");
+            // out.print(array.toString());
+        } finally {
             out.close();
         }
     }
@@ -68,7 +67,11 @@ public class Controller extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(ControllerJson.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -83,7 +86,11 @@ public class Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(ControllerJson.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
