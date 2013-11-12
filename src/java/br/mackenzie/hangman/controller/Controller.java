@@ -5,8 +5,13 @@
 package br.mackenzie.hangman.controller;
 
 import br.mackenzie.hangman.DAO.PlayerDAO;
+import br.mackenzie.hangman.exception.PersistenceException;
+import br.mackenzie.hangman.model.Player;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,10 +47,26 @@ public class Controller extends HttpServlet {
             out.println("<title>Servlet Controlller</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Controlller at " + request.getContextPath() + "</h1>");
+            out.println("Test0");
+            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + "</h1>");
             if (request.getParameter("opcao") != null && "player.auth".equalsIgnoreCase(request.getParameter("opcao"))) {
+                out.println("Test1");
                 if("true".equalsIgnoreCase(request.getParameter("signup"))) {
-                    request.setAttribute("nickname", new PlayerDAO().buscarPorNome(request.getParameter("nickname")));
+                    try {
+                        out.println("Test2");
+                        PlayerDAO playerDAO = new PlayerDAO();
+                        out.println(playerDAO.buscarPorNome("Test"+request.getParameter("nickname")).getNickname());
+                        //if((request.getParameter("nickname") != null) && 
+                          //      (playerDAO.buscarPorNome(request.getParameter("nickname")).getNickname()).equalsIgnoreCase(request.getParameter("nickname"))) {
+                            out.println("Test3");
+                            playerDAO.inserir(new Player(request.getParameter("nickname"), request.getParameter("passowrd")));
+                            RequestDispatcher requestDispatcher = request.getRequestDispatcher("./welcome");
+                            requestDispatcher.forward(request, response);
+                        //}
+                        
+                    } catch (PersistenceException ex) {
+                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
             out.println("</body>");
