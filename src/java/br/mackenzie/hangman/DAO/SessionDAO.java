@@ -21,7 +21,7 @@ public class SessionDAO implements GenericDAO<Session>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "INSERT INTO HANGMAN_DB.SESSION (TIME,SCORE,IDPLAYER,IDWORD) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO HANGMAN_DB.SESSION (TIMESESSION,SCORE,IDPLAYER,IDWORD) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, session.getTime());
             preparedStatement.setInt(2,session.getScore());
@@ -45,8 +45,13 @@ public class SessionDAO implements GenericDAO<Session>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HAGMAN_DB.SESSION WHERE IDSESSION = ?  ";
+            String sql = "UPDATE HAGMAN_DB.SESSION SET TIMESESSION = ?, SET SCORE = ?, SET IDPLAYER = ?, SET IDWORD = ? WHERE IDSESSION = ?  ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, session.getTime());
+            preparedStatement.setInt(2, session.getScore());
+            preparedStatement.setInt(3, new PlayerDAO().retornaId(session.getPlayer()));
+            preparedStatement.setInt(4, new WordDAO().retornaId(session.getWord()));
+            preparedStatement.setInt(4, session.getId());
             preparedStatement.executeUpdate();
             connection.close();
 
@@ -62,17 +67,71 @@ public class SessionDAO implements GenericDAO<Session>{
 
     @Override
     public void deletar(Integer id) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "DELETE FROM HANGMAN_DB.SESSION WHERE IDSESSION = ?";
+            PreparedStatement preparedStatement  = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            connection.close();
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível excluir o registro!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível excluir o registro!");
+        }
     }
 
     @Override
     public List<Session> listarTodos() throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        List<Session> sessions = new ArrayList<Session>();
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT * FROM HANGMAN_DB.SESSION";
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery(sql);
+            
+            while(result.next()){
+                sessions.add(new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD"))));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+        return sessions;
     }
 
     @Override
     public Session buscarPorId(Integer id) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = null;
+        Session session = null;
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT * FROM HANGMAN_DB.SESSION WHERE IDSESSION = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+			ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar todos!");
+        }
+        return session;
     }
 
     @Override
