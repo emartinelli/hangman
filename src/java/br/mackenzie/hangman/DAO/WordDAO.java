@@ -19,10 +19,12 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "INSERT INTO HAGMAN_DB.WORD (WORD,ERRORFREQUENCY) VALUES (?,?)";
+            String sql = "INSERT INTO HAGMAN_DB.WORD (WORD,ERRORFREQUENCY,SESSIONS,GAMEOVERS) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, word.getRealWord());
             preparedStatement.setFloat(2, word.getErrorFrequency());
+            preparedStatement.setInt(3, word.getGameovers());
+            preparedStatement.setInt(4, word.getSessions());
             preparedStatement.executeUpdate();
             connection.close();
 
@@ -41,10 +43,12 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HAGMAN_DB.WORD SET ERRORFREQUENCY = ? WHERE WORD = ?  ";
+            String sql = "UPDATE HAGMAN_DB.WORD SET ERRORFREQUENCY = ?, SET SESSION = ?, SET GAMEOVERS = ? WHERE WORD = ?  ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(2, word.getRealWord());
             preparedStatement.setFloat(1, word.getErrorFrequency());
+            preparedStatement.setInt(3, word.getGameovers());
+            preparedStatement.setInt(4, word.getSessions());
             preparedStatement.executeUpdate();
             connection.close();
 
