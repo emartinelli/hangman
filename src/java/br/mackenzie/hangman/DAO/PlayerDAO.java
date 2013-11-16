@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PlayerDAO implements GenericDAO<Player>{
-
     @Override
     public void inserir(Player player) throws PersistenceException {
         Connection connection = null;

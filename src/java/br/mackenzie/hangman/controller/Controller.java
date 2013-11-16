@@ -47,28 +47,35 @@ public class Controller extends HttpServlet {
             out.println("<title>Servlet Controlller</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("Test0");
-            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + "</h1>");
+            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + " In:" + request.getParameter("signin")+ " Up:" + request.getParameter("signup") + "</h1>");
+            
             if (request.getParameter("opcao") != null && "player.auth".equalsIgnoreCase(request.getParameter("opcao"))) {
-                out.println("Test1");
+                if("true".equalsIgnoreCase(request.getParameter("signin"))) {
+                    try {
+                        PlayerDAO playerDAO = new PlayerDAO();
+                        Player busca = playerDAO.buscarPorNome(request.getParameter("nickname"));
+                            if(busca != null) {
+                                response.sendRedirect("./mainMenu.jsp");
+                            } 
+                                //response.sendRedirect("./mainMenu.jsp");
+                            //}
+                    } catch (PersistenceException ex) {
+                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
                 if("true".equalsIgnoreCase(request.getParameter("signup"))) {
                     try {
-                        out.println("Test2");
                         PlayerDAO playerDAO = new PlayerDAO();
-                        out.println(playerDAO.buscarPorNome("Test"+request.getParameter("nickname")).getNickname());
-                        //if((request.getParameter("nickname") != null) && 
-                          //      (playerDAO.buscarPorNome(request.getParameter("nickname")).getNickname()).equalsIgnoreCase(request.getParameter("nickname"))) {
-                            out.println("Test3");
-                            playerDAO.inserir(new Player(request.getParameter("nickname"), request.getParameter("passowrd")));
-                            RequestDispatcher requestDispatcher = request.getRequestDispatcher("./welcome");
-                            requestDispatcher.forward(request, response);
-                        //}
-                        
+                            if(playerDAO.buscarPorNome(request.getParameter("nickname")) == null) {
+                                playerDAO.inserir(new Player(request.getParameter("nickname"), request.getParameter("password")));
+                            }
                     } catch (PersistenceException ex) {
                         Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
+            
             out.println("</body>");
             out.println("</html>");
         } finally {            

@@ -34,7 +34,7 @@
                     <input type="password" id="password" class="form-control" name="password" placeholder="Enter password"><br>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-default navbar-btn" id="signin" name="sinin" value="true">Sign in</button>
+                <button type="submit" class="btn btn-default navbar-btn" id="signin" name="signin" value="true">Sign in</button>
                 <button type="submit" class="btn btn-default navbar-btn" id="signup" name="signup" value="true">Sign Up</button>
             </div>
         </form>
