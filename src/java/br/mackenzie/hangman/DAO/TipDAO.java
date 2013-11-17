@@ -2,6 +2,7 @@ package br.mackenzie.hangman.DAO;
 
 import br.mackenzie.hangman.model.Tip;
 import br.mackenzie.hangman.exception.PersistenceException;
+import br.mackenzie.hangman.model.Word;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,6 +115,31 @@ public class TipDAO implements GenericDAO <Tip>{
     @Override
     public Tip buscarPorId(Integer id) throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public List<Tip> retornaTip (Word word) throws PersistenceException{
+        Connection connection = null;
+        List<Tip> tips = new ArrayList<Tip>();
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT HANGMAN_DB.TIP.INFORMATION, HANGMAN_DB.TIP.IDWORD FROM HANGMAN_DB.TIP INNER JOIN HANGMAN_DB.WORD ON (?) = HANGMAN_DB.TIP.IDWORD";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, new WordDAO().retornaId(word));
+            ResultSet result = preparedStatement.executeQuery();
+            
+            while(result.next()){
+                tips.add(new Tip(result.getString("INFORMATION"),new WordDAO().buscarPorId(result.getInt("IDWORD"))));
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.TipDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível encontrar!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.TipDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível encontrar!");
+        }
+        return tips;
     }
     
 }
