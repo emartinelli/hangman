@@ -1,5 +1,6 @@
 
 import br.mackenzie.hangman.DAO.PlayerDAO;
+import br.mackenzie.hangman.DAO.TipDAO;
 import br.mackenzie.hangman.DAO.WordDAO;
 import br.mackenzie.hangman.exception.PersistenceException;
 import br.mackenzie.hangman.model.Player;
@@ -29,6 +30,10 @@ public class Main {
             for (Word word : new WordDAO().listarTodos()) {
                 System.out.println(word.getRealWord());
             }
+            for (int i = 0; i < new TipDAO().listarTodos().size(); i++) {
+                new TipDAO().listarTodos().get(i).getWord();
+            }
+            
         } catch (PersistenceException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

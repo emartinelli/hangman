@@ -5,8 +5,10 @@
 package br.mackenzie.hangman.controller;
 
 import br.mackenzie.hangman.DAO.PlayerDAO;
+import br.mackenzie.hangman.DAO.WordDAO;
 import br.mackenzie.hangman.exception.PersistenceException;
 import br.mackenzie.hangman.model.Player;
+import br.mackenzie.hangman.model.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -49,12 +51,20 @@ public class Controller extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + " In:" + request.getParameter("signin")+ " Up:" + request.getParameter("signup") + "</h1>");
             
+            if (request.getParameter("opcao") != null && "count".equalsIgnoreCase(request.getParameter("opcao"))) {
+                //new WordDAO().buscarPorNome(request.getParameter("word"));
+                out.println(request.getParameter("player"));
+                out.println(request.getParameter("gameover"));
+            }
+            
             if (request.getParameter("opcao") != null && "player.auth".equalsIgnoreCase(request.getParameter("opcao"))) {
                 if("true".equalsIgnoreCase(request.getParameter("signin"))) {
                     try {
                         PlayerDAO playerDAO = new PlayerDAO();
                         Player busca = playerDAO.buscarPorNome(request.getParameter("nickname"));
                             if(busca != null) {
+                                //Session session;
+                                //session.s
                                 response.sendRedirect("./mainMenu.jsp");
                             } 
                                 //response.sendRedirect("./mainMenu.jsp");

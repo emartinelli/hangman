@@ -9,12 +9,14 @@
 <!DOCTYPE html>
 <jsp:useBean id="wordDAO" class="br.mackenzie.hangman.DAO.WordDAO" scope="page" />
 <jsp:useBean id="word" class="br.mackenzie.hangman.model.Word" scope="page" />
+<jsp:useBean id="tipDAO" class="br.mackenzie.hangman.DAO.TipDAO" scope="page" />
+<jsp:useBean id="tip" class="br.mackenzie.hangman.model.Tip" scope="page" />
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/../html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="./../lib/css/bootstrap-responsive.min.css">
         <link rel="stylesheet" type="text/css" href="./../lib/css/bootstrap.min.css">
-        <title>Hall of Fame Menu</title>
+        <title>Hangman THE GAME</title>
     </head>
     <body>
         <div class="container">
@@ -40,35 +42,71 @@
 </html>
 <script>
     $(document).ready(function() {
-        var randomWord = '<c:out value="${word.getRandomWord(wordDAO.listarTodos()).realWord}" />';
+        var randomWord = '<c:out value="${word.getRandomWord(wordDAO.listarTodos()).realWord}" />'.toLowerCase();
+        //var tips = ;
         var usedLetters = "";
         var finalWordContent = "";
-        for (i = 0; i < randomWord.length; i++) {
-            finalWordContent += "_ ";
+
+        for (i = 0; i < randomWord.length; i++) { //Fill the secret word
+            finalWordContent += "_";
         }
-        $("#finalWord").text(finalWordContent);
+
+        var finalWordSpc = finalWordContent; //put spaces in the secret word
+        $("#finalWord").text(finalWordSpc.split('').join(' '));
 
         $('#charInput').keyup(function() {
             try {
-                var content = $('#charInput').val()[0];
+                var content = $('#charInput').val()[0]; //Receive value, treatment of errors and input management
                 $('#charInput').val("");
                 $("#charError").hide();
-                if (usedLetters.indexOf(content) !== -1) throw "You have already tried this character and it is WRONG!";
-                if (finalWordContent.indexOf(content) !== -1) throw "Ok it is right but you could try another!";
-                console.log("Teste:" + content);
-                //randomWord.
+                if (usedLetters.indexOf(content) !== -1) //treatment of errors
+                    throw "You have already tried this character and it is WRONG!";
+                if (finalWordContent.indexOf(content) !== -1)
+                    throw "Ok it is right but you could try another!";
+                patt = new RegExp("[^a-zA-Z0-9]");
+                if (patt.test(content) || content === undefined)
+                    throw "Hey! You should not use it here."
+
+                //Verify and handle inputed chars, correct guesses and mistakes
                 var startIndex = 0;
-                if (randomWord.indexOf(content, startIndex) !== -1) {
-                    while (startIndex !== -1) { //Right char
-                        startIndex = randomWord.indexOf(content, startIndex);
-                        finalWordContent = finalWordContent.slice(0, startIndex - 1) + content + finalWordContent.slice(startIndex + 1, finalWordContent.length);
-                        console.log(finalWordContent);
+                if (randomWord.indexOf(content, startIndex) !== -1) {//Right char
+                    var newfinalWordContent = "";
+                    for (startIndexI = 0, j = 0; startIndexI !== -1; startIndexI, j = startIndexI) {
+                        startIndexI = randomWord.indexOf(content, startIndexI);
+                        if (startIndexI === -1)
+                            break;
+                        finalWordContent = finalWordContent.substring(0, startIndexI - 1) + content + finalWordContent.substr(startIndexI + 1);
+                        //for (var i = j; i < startIndexI; i++) {
+                        //  newfinalWordContent += finalWordContent[i];
+                        //}
+                        //newfinalWordContent += content + " ";
+                        //finalWordContent = newfinalWordContent;
+                        console.log("Word:" + newfinalWordContent + " " + randomWord + " Index:" + startIndexI + " Tes:" + "\n");
                     }
-                    $("#finalWord").val(finalWordContent);
+                    //for (i = randomWord.lastIndexOf(content) + 1; i < randomWord.length; i++) {
+                    //  newfinalWordContent += "_";
+                    //}
+                    //finalWordContent = newfinalWordContent;
+                    finalWordSpc = finalWordContent;
+                    $("#finalWord").text(finalWordSpc.split('').join(' ')); //Refresh the word with correct the char
+
                 } else {//Wrong char
                     usedLetters = usedLetters + content;
-                    $("#usedLetters").text(usedLetters);
-                    $("#hangmanImage").attr("src", "./../resources/gallows/" + usedLetters.length + ".png");
+                    if (usedLetters.length > 6) {
+                        console.log("gooooooooooooooooooooo");
+                        $.post("./../controller?opcao=count",
+                                {
+                                    word: randomWord,
+                                    player: "Duckburg",
+                                    gameover: "true"
+                                },
+                        function(data, status) {
+                            console.log("Data: " + data + "\nStatus: " + status);
+                        });
+                    } else {
+                        $("#usedLetters").text(usedLetters);
+                        $("#hangmanImage").attr("src", "./../resources/gallows/" + usedLetters.length + ".png");
+                    }
                 }
             } catch (err) {
                 $("#charError").show();

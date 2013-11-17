@@ -18,6 +18,7 @@ public class Tip {
     public Tip(String information,Word word) {
         this.information = information;
         this.word = word;
+        word.setTip(this);
     }
 
     public String getInformation() {
