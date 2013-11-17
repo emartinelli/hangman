@@ -5,6 +5,7 @@
 package br.mackenzie.hangman.controller;
 
 import br.mackenzie.hangman.DAO.PlayerDAO;
+import br.mackenzie.hangman.DAO.SessionDAO;
 import br.mackenzie.hangman.DAO.WordDAO;
 import br.mackenzie.hangman.exception.PersistenceException;
 import br.mackenzie.hangman.model.Player;
@@ -41,56 +42,69 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = null; 
+        HttpSession session = null;
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Controlller</title>");            
+            out.println("<title>Servlet Controlller</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + " In:" + request.getParameter("signin")+ " Up:" + request.getParameter("signup") + "</h1>");
-            
+            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + " In:" + request.getParameter("signin") + " Up:" + request.getParameter("signup") + "</h1>");
+
             if (request.getParameter("opcao") != null && "count".equalsIgnoreCase(request.getParameter("opcao"))) {
+                try {
+                    SessionDAO sessionDAO = new SessionDAO();
+                    Session sessionModel;
+                    sessionModel = new Session(0, new PlayerDAO().buscarPorNome(request.getParameter("player")), new WordDAO().buscarPorNome(request.getParameter("word")));
+                    sessionDAO.inserir(sessionModel);
+                    sessionModel.setScore("true".equalsIgnoreCase(request.getParameter("gameover"))? 100 : 0);
+                    sessionDAO.atualizar(sessionModel);
+                } catch (PersistenceException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 //new WordDAO().buscarPorNome(request.getParameter("word"));
-                out.println(request.getParameter("player"));
-                out.println(request.getParameter("gameover"));
+                //out.println(request.getParameter("player"));
+                //out.println(request.getParameter("gameover"));
             }
-            
+
             if (request.getParameter("opcao") != null && "player.auth".equalsIgnoreCase(request.getParameter("opcao"))) {
-                if("true".equalsIgnoreCase(request.getParameter("signin"))) {
+                if ("true".equalsIgnoreCase(request.getParameter("signin"))) {
+                    out.println("Sigin");
                     try {
+                        out.println("Try");
                         PlayerDAO playerDAO = new PlayerDAO();
                         Player busca = playerDAO.buscarPorNome(request.getParameter("nickname"));
-                            if(busca != null) {
-                                //Session session;
-                                session.setAttribute("username", request.getParameter("nickname"));
-                                response.sendRedirect("./mainMenu.jsp");
-                            } 
-                                //response.sendRedirect("./mainMenu.jsp");
-                            //}
+                        if (busca != null) {
+                            out.println("busca");
+                            //Session session;
+                            //session.setAttribute("username", request.getParameter("nickname"));
+                            response.sendRedirect("./mainMenu.jsp");
+                        }
+                        //response.sendRedirect("./mainMenu.jsp");
+                        //}
                     } catch (PersistenceException ex) {
                         Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                
-                if("true".equalsIgnoreCase(request.getParameter("signup"))) {
+
+                if ("true".equalsIgnoreCase(request.getParameter("signup"))) {
                     try {
                         PlayerDAO playerDAO = new PlayerDAO();
-                            if(playerDAO.buscarPorNome(request.getParameter("nickname")) == null) {
-                                playerDAO.inserir(new Player(request.getParameter("nickname"), request.getParameter("password")));
-                            }
+                        if (playerDAO.buscarPorNome(request.getParameter("nickname")) == null) {
+                            playerDAO.inserir(new Player(request.getParameter("nickname"), request.getParameter("password")));
+                        }
                     } catch (PersistenceException ex) {
                         Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
-            
+
             out.println("</body>");
             out.println("</html>");
-        } finally {            
+        } finally {
             out.close();
         }
     }

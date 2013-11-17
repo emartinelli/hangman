@@ -23,7 +23,12 @@ public class Session {
         this.player = player;
         this.word = word;
     }
-
+    
+    public Session(Integer time, Player player, Word word) {
+        this.time = time;
+        this.player = player;
+        this.word = word;
+    }
     public Integer getId() {
         return id;
     }
