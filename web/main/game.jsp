@@ -97,7 +97,7 @@
                         $.post("./../controller?opcao=count",
                                 {
                                     word: randomWord,
-                                    player: "Duckburg",
+                                    player: '${sessionScope.username}',
                                     gameover: "true"
                                 },
                         function(data, status) {

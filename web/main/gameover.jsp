@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/../html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="./../lib/css/bootstrap-responsive.min.css">
         <link rel="stylesheet" type="text/css" href="./../lib/css/bootstrap.min.css">
-        <title>Hall of Fame Menu</title>
+        <title>Game over</title>
     </head>
     <body>
         <div class="container">
