@@ -1,7 +1,9 @@
 
 import br.mackenzie.hangman.DAO.PlayerDAO;
+import br.mackenzie.hangman.DAO.WordDAO;
 import br.mackenzie.hangman.exception.PersistenceException;
 import br.mackenzie.hangman.model.Player;
+import br.mackenzie.hangman.model.Word;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,12 +19,16 @@ import java.util.logging.Logger;
 public class Main {
     public static void main(String[] args) {
         try {
-            PlayerDAO playerDAO = new PlayerDAO();
+            /*PlayerDAO playerDAO = new PlayerDAO();
                             System.out.println("Teste" + playerDAO.buscarPorNome("emartinelli"));
                             if(playerDAO.buscarPorNome("emartinelli") == null) {
                                 System.out.println("Test3");
                                 playerDAO.inserir(new Player("emartinelli", "123"));
-                            }
+                            }*/
+            //for(int i = 0; i < 2; i++) new WordDAO().inserir(new Word("Teste"+i));
+            for (Word word : new WordDAO().listarTodos()) {
+                System.out.println(word.getRealWord());
+            }
         } catch (PersistenceException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

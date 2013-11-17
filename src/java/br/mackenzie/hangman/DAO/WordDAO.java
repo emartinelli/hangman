@@ -19,10 +19,9 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "INSERT INTO HAGMAN_DB.WORD (WORD,ERRORFREQUENCY) VALUES (?,?)";
+            String sql = "INSERT INTO HANGMAN_DB.WORD (REALWORD) VALUES (?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, word.getRealWord());
-            preparedStatement.setFloat(2, word.getErrorFrequency());
             preparedStatement.executeUpdate();
             connection.close();
 
@@ -88,7 +87,7 @@ public class WordDAO implements GenericDAO<Word>{
             ResultSet result = select.executeQuery(sql);
             
             while (result.next()){
-                words.add(new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY")));
+                words.add(new Word(result.getString("REALWORD")));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -113,7 +112,7 @@ public class WordDAO implements GenericDAO<Word>{
             preparedStatement.setString(1, name);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
-                word = new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
+                word = new Word(result.getString("WORD"));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,7 +163,7 @@ public class WordDAO implements GenericDAO<Word>{
 			preparedStatement.setInt(1, id);
 			ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
-				word = new Word(result.getString("WORD"), result.getFloat("ERRORFREQUENCY"));
+				word = new Word(result.getString("WORD"));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);

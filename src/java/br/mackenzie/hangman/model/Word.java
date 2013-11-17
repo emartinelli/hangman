@@ -33,6 +33,11 @@ public class Word {
         return tips.get(rand.nextInt(tips.size()));
     }
     
+    public Word getRandomWord(List<Word> words) {
+        Random rand = new Random();
+        return words.get(rand.nextInt(words.size()));
+    }
+    
     public void setTip(Tip tip) {
         tips.add(tip);
     }
@@ -56,9 +61,9 @@ public class Word {
     public Word() {
     }
 
-    public Word(String realWord, Float errorFrequency) {
+    public Word(String realWord) {
         this.realWord = realWord;
-        this.errorFrequency = errorFrequency;
+        this.errorFrequency = sessions==0 ? -1 : (float)gameovers/sessions;
         
     }
     
