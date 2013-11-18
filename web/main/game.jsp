@@ -21,7 +21,8 @@
     <body>
         <div class="container">
             <div id="hangmanImageDiv">
-                <img id="hangmanImage" src="./../resources/gallows/0.png" width="150px">
+                <p> Let's play a game ${sessionScope.username} </p>
+                <img id="hangmanImage" src="./../resources/gallows/0.png" width="200px">
             </div>
             <div id="finalWordDiv">
                 <h2 id="finalWord"></h2>
@@ -70,39 +71,32 @@
                 //Verify and handle inputed chars, correct guesses and mistakes
                 var startIndex = 0;
                 if (randomWord.indexOf(content, startIndex) !== -1) {//Right char
-                    var newfinalWordContent = "";
-                    for (startIndexI = 0, j = 0; startIndexI !== -1; startIndexI, j = startIndexI) {
+                    for (startIndexI = 0, j = 0; startIndexI !== -1; startIndexI++, j = startIndexI) {
                         startIndexI = randomWord.indexOf(content, startIndexI);
                         if (startIndexI === -1)
                             break;
-                        finalWordContent = finalWordContent.substring(0, startIndexI - 1) + content + finalWordContent.substr(startIndexI + 1);
-                        //for (var i = j; i < startIndexI; i++) {
-                        //  newfinalWordContent += finalWordContent[i];
-                        //}
-                        //newfinalWordContent += content + " ";
-                        //finalWordContent = newfinalWordContent;
-                        console.log("Word:" + newfinalWordContent + " " + randomWord + " Index:" + startIndexI + " Tes:" + "\n");
+                        finalWordContent = finalWordContent.substring(0, startIndexI) + content + finalWordContent.substr(startIndexI + 1);
+                        console.log("Word:" + finalWordContent + " " + randomWord + " Index:" + startIndexI + " Tes:" + "\n");
                     }
-                    //for (i = randomWord.lastIndexOf(content) + 1; i < randomWord.length; i++) {
-                    //  newfinalWordContent += "_";
-                    //}
-                    //finalWordContent = newfinalWordContent;
+                    if (finalWordContent.indexOf('_') === -1) {
+                        endGame(randomWord, "false");
+                    }
                     finalWordSpc = finalWordContent;
                     $("#finalWord").text(finalWordSpc.split('').join(' ')); //Refresh the word with correct the char
 
                 } else {//Wrong char
                     usedLetters = usedLetters + content;
-                    if (usedLetters.length > 6) {
-                        console.log("gooooooooooooooooooooo");
-                        $.post("./../controller?opcao=count",
-                                {
-                                    word: randomWord,
-                                    player: '${sessionScope.username}',
-                                    gameover: "true"
-                                },
-                        function(data, status) {
-                            console.log("Data: " + data + "\nStatus: " + status);
-                        });
+                    if (usedLetters.length > 6) { //gameover
+                        endGame(randomWord, "true");
+                        /*$.post("./../controller?opcao=count",
+                         {
+                         word: randomWord,
+                         player: '${sessionScope.username}',
+                         gameover: "true"
+                         },
+                         function(data, status) {
+                         console.log("Data: " + data + "\nStatus: " + status);
+                         });*/
                     } else {
                         $("#usedLetters").text(usedLetters);
                         $("#hangmanImage").attr("src", "./../resources/gallows/" + usedLetters.length + ".png");
@@ -117,4 +111,15 @@
 
     }
     );
+    function endGame(isGameover, randomWord) {
+        $.post("./../controller?opcao=count",
+                {
+                    word: randomWord,
+                    player: '${sessionScope.username}',
+                    gameover: isGameover
+                },
+        function(data, status) {
+            window.location.replace(data);
+        });
+    }
 </script>

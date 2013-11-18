@@ -42,7 +42,6 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = null;
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
@@ -60,7 +59,7 @@ public class Controller extends HttpServlet {
                     Session sessionModel;
                     sessionModel = new Session(0, new PlayerDAO().buscarPorNome(request.getParameter("player")), new WordDAO().buscarPorNome(request.getParameter("word")));
                     sessionDAO.inserir(sessionModel);
-                    sessionModel.setScore("true".equalsIgnoreCase(request.getParameter("gameover"))? 100 : 0);
+                    sessionModel.setScore("true".equalsIgnoreCase(request.getParameter("gameover")) ? 100 : 0);
                     sessionDAO.atualizar(sessionModel);
                 } catch (PersistenceException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,6 +67,15 @@ public class Controller extends HttpServlet {
                 //new WordDAO().buscarPorNome(request.getParameter("word"));
                 //out.println(request.getParameter("player"));
                 //out.println(request.getParameter("gameover"));
+                if ("true".equalsIgnoreCase(request.getParameter("gameover"))) {
+                    //RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/gameover.jsp");
+                    //requestDispatcher.forward(request, response);
+                    response.sendRedirect("/main/gameover.jsp");
+                } else {
+                    //RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/victory.jsp");
+                    //requestDispatcher.forward(request, response);
+                    response.sendRedirect("/main/victory.jsp");
+                }
             }
 
             if (request.getParameter("opcao") != null && "player.auth".equalsIgnoreCase(request.getParameter("opcao"))) {
@@ -80,7 +88,8 @@ public class Controller extends HttpServlet {
                         if (busca != null) {
                             out.println("busca");
                             //Session session;
-                            //session.setAttribute("username", request.getParameter("nickname"));
+                            HttpSession session = request.getSession();
+                            session.setAttribute("username", request.getParameter("nickname"));
                             response.sendRedirect("./mainMenu.jsp");
                         }
                         //response.sendRedirect("./mainMenu.jsp");

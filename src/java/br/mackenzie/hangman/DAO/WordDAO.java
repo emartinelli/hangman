@@ -107,12 +107,12 @@ public class WordDAO implements GenericDAO<Word>{
         try {
             connection = ConnectionHangman.getInstance().getConnection();
             
-            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE WORD = ?";
+            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE REALWORD = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()){
-                word = new Word(result.getString("WORD"));
+                word = new Word(result.getString("REALWORD"));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,15 +127,16 @@ public class WordDAO implements GenericDAO<Word>{
     
     public int retornaId (Word word) throws PersistenceException{
         Connection connection = null;
-        int id;
+        int id = 0;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
             
-            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE WORD = ?";
+            String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE REALWORD = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, word.getRealWord());
             ResultSet result = preparedStatement.executeQuery();
-            id = result.getInt("IDWORD");
+            while(result.next())
+                id = result.getInt("IDWORD");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível burcar!");

@@ -11,7 +11,7 @@ package br.mackenzie.hangman.model;
 public class Session {
     private Integer id;
     private Integer time;
-    private Integer score;
+    private Integer score=0;
     private Player player;
     private Word word;
 
@@ -25,6 +25,7 @@ public class Session {
     }
     
     public Session(Integer time, Player player, Word word) {
+        this.id = this.hashCode();
         this.time = time;
         this.player = player;
         this.word = word;

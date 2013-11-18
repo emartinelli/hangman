@@ -27,8 +27,8 @@ public class SessionDAO implements GenericDAO<Session>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, session.getTime());
             preparedStatement.setInt(2,session.getScore());
-            preparedStatement.setInt(2,new PlayerDAO().retornaId(session.getPlayer()));
-            preparedStatement.setInt(2,new WordDAO().retornaId(session.getWord()));
+            preparedStatement.setInt(3,new PlayerDAO().retornaId(session.getPlayer()));
+            preparedStatement.setInt(4,new WordDAO().retornaId(session.getWord()));
             preparedStatement.executeUpdate();
             connection.close();
 
@@ -47,13 +47,13 @@ public class SessionDAO implements GenericDAO<Session>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HAGMAN_DB.SESSION SET TIMESESSION = ?, SET SCORE = ?, SET IDPLAYER = ?, SET IDWORD = ? WHERE IDSESSION = ?  ";
+            String sql = "UPDATE HANGMAN_DB.SESSION SET TIMESESSION = ?, SCORE = ?, IDPLAYER = ?, IDWORD = ? WHERE IDSESSION = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, session.getTime());
             preparedStatement.setInt(2, session.getScore());
             preparedStatement.setInt(3, new PlayerDAO().retornaId(session.getPlayer()));
             preparedStatement.setInt(4, new WordDAO().retornaId(session.getWord()));
-            preparedStatement.setInt(4, session.getId());
+            preparedStatement.setInt(5, session.getId());
             preparedStatement.executeUpdate();
             connection.close();
 

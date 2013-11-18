@@ -131,7 +131,7 @@ public class PlayerDAO implements GenericDAO<Player>{
     
     public int retornaId (Player player) throws PersistenceException {
         Connection connection = null;
-        int id;
+        int id=0;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
             
@@ -139,7 +139,8 @@ public class PlayerDAO implements GenericDAO<Player>{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, player.getNickname());
             ResultSet result = preparedStatement.executeQuery();
-            id = result.getInt("IDPLAYER");
+            while(result.next())
+                id = result.getInt("IDPLAYER");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new PersistenceException("Não foi possível burcar!");
