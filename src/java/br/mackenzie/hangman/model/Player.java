@@ -12,6 +12,7 @@ public class Player {
     private String nickname;
     private String password;
     private boolean admin;
+    private Integer totalScore; 
 
     public boolean isAdmin() {
         return admin;
@@ -47,5 +48,14 @@ public class Player {
         this.password = password;
     }
 
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    
     
 }

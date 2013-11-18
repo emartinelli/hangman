@@ -181,5 +181,30 @@ public class PlayerDAO implements GenericDAO<Player>{
         }
         return player;
 	}
-    
+    public List<Player> pontuacaoGeral () throws PersistenceException{
+        Connection connection = null;
+        List<Player> players = new ArrayList<Player>();
+        try {
+            connection = ConnectionHangman.getInstance().getConnection();
+            String sql = "SELECT HANGMAN_DB.SESSION.IDPLAYER, SUM(HANGMAN_DB.SESSION.SCORE) AS TOTALSCORE FROM HANGMAN_DB.SESSION GROUP BY HANGMAN_DB.SESSION.IDPLAYER ORDER BY TOTALSCORE DESC";
+            Statement select = connection.createStatement();
+            ResultSet result = select.executeQuery(sql);
+            
+            while (result.next()){
+                Player player = new PlayerDAO().buscarPorId(result.getInt("IDPLAYER"));
+                player.setTotalScore(result.getInt("TOTALSCORE"));
+                players.add(player);
+                
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar a pontuação!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar a pontuação!");
+        }
+        return players;
+    }
 }
