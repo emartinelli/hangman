@@ -23,6 +23,7 @@
             <div id="hangmanImageDiv">
                 <p> Let's play a game ${sessionScope.username} </p>
                 <img id="hangmanImage" src="./../resources/gallows/0.png" width="200px">
+                <button id='tipButton'>I need help</button><small id='tipMsg'></small>
             </div>
             <div id="finalWordDiv">
                 <h2 id="finalWord"></h2>
@@ -47,14 +48,32 @@
         //var tips = ;
         var usedLetters = "";
         var finalWordContent = "";
-
+        var tipIndex = 0;
         for (i = 0; i < randomWord.length; i++) { //Fill the secret word
             finalWordContent += "_";
         }
 
+        $("#tipButton").click(function() {
+            var tips = new Array();
+            var i = 0;
+            console.log("Click");
+            <c:forEach var="tip" items="${tipDAO.retornaTip(wordDAO.buscarPorNome('teste0'))}">
+                tips[i] = '<c:out value="${tip.information}"/>';
+                console.log(tips[i]);
+                i++;
+            </c:forEach>
+            if (tipIndex < 2) {
+                $("#tipMsg").text(tips[tipIndex]);
+                tipIndex++;
+            }
+            else
+            {
+                $("#tipMsg").text("You have no more tips. Good luck ;)");
+            }
+
+        });
         var finalWordSpc = finalWordContent; //put spaces in the secret word
         $("#finalWord").text(finalWordSpc.split('').join(' '));
-
         $('#charInput').keyup(function() {
             try {
                 var content = $('#charInput').val()[0]; //Receive value, treatment of errors and input management
@@ -108,7 +127,6 @@
             }
         }
         );
-
     }
     );
     function endGame(isGameover, randomWord) {
