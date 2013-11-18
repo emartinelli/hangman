@@ -182,9 +182,12 @@ public class WordDAO implements GenericDAO<Word>{
             try {
                 connection = ConnectionHangman.getInstance().getConnection();
 			
-		String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE IDWORD = ?";
+		String sql = "SELECT HANGMAN_DB.SESSION.IDWORD ,(COUNT(HANGMAN_DB.SESSION.IDWORD)) FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = -10 GROUP BY HANGMAN_DB.SESSION.IDWORD ORDER BY HANGMAN_DB.SESSION.IDWORD";
+                String sql2 ="SELECT HANGMAN_DB.SESSION.IDWORD ,(COUNT(HANGMAN_DB.SESSION.IDWORD)) FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = 100 GROUP BY HANGMAN_DB.SESSION.IDWORD ORDER BY HANGMAN_DB.SESSION.IDWORD";
                 Statement select = connection.createStatement();
+                Statement select2 = connection.createStatement();
                 ResultSet result = select.executeQuery(sql);
+                ResultSet result2 = select2.executeQuery(sql2);
             
             while (result.next()){
                 
