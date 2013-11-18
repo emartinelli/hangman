@@ -21,9 +21,9 @@
     <body>
         <div class="container">
             <div id="hangmanImageDiv">
-                <p> Let's play a game ${sessionScope.username} </p>
+                <p> Let's play a game, ${sessionScope.username} </p>
                 <img id="hangmanImage" src="./../resources/gallows/0.png" width="200px">
-                <button id='tipButton'>I need help</button><small id='tipMsg'></small>
+                <button id='tipButton'>I need help</button> <small id='tipMsg'></small>
             </div>
             <div id="finalWordDiv">
                 <h2 id="finalWord"></h2>
@@ -98,7 +98,7 @@
                         console.log("Word:" + finalWordContent + " " + randomWord + " Index:" + startIndexI + " Tes:" + "\n");
                     }
                     if (finalWordContent.indexOf('_') === -1) {
-                        endGame(randomWord, "false");
+                        endGame("false", randomWord);
                     }
                     finalWordSpc = finalWordContent;
                     $("#finalWord").text(finalWordSpc.split('').join(' ')); //Refresh the word with correct the char
@@ -106,16 +106,7 @@
                 } else {//Wrong char
                     usedLetters = usedLetters + content;
                     if (usedLetters.length > 6) { //gameover
-                        endGame(randomWord, "true");
-                        /*$.post("./../controller?opcao=count",
-                         {
-                         word: randomWord,
-                         player: '${sessionScope.username}',
-                         gameover: "true"
-                         },
-                         function(data, status) {
-                         console.log("Data: " + data + "\nStatus: " + status);
-                         });*/
+                        endGame("true", randomWord);
                     } else {
                         $("#usedLetters").text(usedLetters);
                         $("#hangmanImage").attr("src", "./../resources/gallows/" + usedLetters.length + ".png");
@@ -137,7 +128,7 @@
                     gameover: isGameover
                 },
         function(data, status) {
-            window.location.replace(data);
+            console.log(data + status);
         });
     }
 </script>

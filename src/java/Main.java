@@ -41,7 +41,17 @@ public class Main {
          Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
          }*/
         try {
-            System.out.println(new TipDAO().retornaTip(new WordDAO().buscarPorNome("teste0")));
+            SessionDAO sessionDAO = new SessionDAO();
+            Session sessionModel;
+            for (Word word : new WordDAO().listarTodos()) {
+                System.out.println(word.getRealWord());
+            }
+            //System.out.println(new WordDAO().buscarPorNome("teste0").getRealWord());
+            sessionModel = new Session(0, new PlayerDAO().buscarPorNome("elvio"), new WordDAO().buscarPorNome("teste0"));
+            sessionDAO.inserir(sessionModel);
+            sessionModel.setScore(0 == 0 ? 100 : 0);
+            sessionDAO.atualizar(sessionModel);
+            //sessionDAO.listarTodos();
         } catch (PersistenceException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
