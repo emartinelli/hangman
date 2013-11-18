@@ -40,7 +40,7 @@ public class WordDAO implements GenericDAO<Word>{
         Connection connection = null;
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "UPDATE HAGMAN_DB.WORD SET ERRORFREQUENCY = ? WHERE WORD = ?  ";
+            String sql = "UPDATE HANGMAN_DB.WORD SET ERRORFREQUENCY = ? WHERE WORD = ?  ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(2, word.getRealWord());
             preparedStatement.setFloat(1, word.getErrorFrequency());
@@ -176,4 +176,28 @@ public class WordDAO implements GenericDAO<Word>{
         return word;
 	}
     
+     public List<Word> pontuacaoErrorFrequency() throws PersistenceException{
+            Connection connection = null;
+            List<Word> words = new ArrayList<Word>();
+            try {
+                connection = ConnectionHangman.getInstance().getConnection();
+			
+		String sql = "SELECT * FROM HANGMAN_DB.WORD WHERE IDWORD = ?";
+                Statement select = connection.createStatement();
+                ResultSet result = select.executeQuery(sql);
+            
+            while (result.next()){
+                
+            }
+                
+            } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível listar a pontuacao!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível list a pontuacao!");
+        }
+        return words;
+    }
 }
