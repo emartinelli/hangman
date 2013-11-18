@@ -226,7 +226,7 @@ public class WordDAO implements GenericDAO<Word>{
         List<Word> words = new ArrayList<Word>();
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "SELECT * FROM HANGMAN_DB.WORD INNER JOIN HANGMAN_DB.SESSION ON HANGMAN_DB.WORD.IDWORD = HANGMAN_DB.SESSION.IDWORD";
+            String sql = "SELECT * FROM HANGMAN_DB.WORD INNER JOIN HANGMAN_DB.SESSION ON HANGMAN_DB.WORD.IDWORD = HANGMAN_DB.SESSION.IDWORD GROUP BY HANGMAN_DB.SESSION.IDWORD";
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery(sql);
             
