@@ -17,18 +17,20 @@ public class Session {
 
     public Session() {
     }
-    public Session(Integer id, Integer time, Player player, Word word) {
+    public Session(Integer id, Integer time, Player player, Word word, Integer score) {
         this.id = id;
         this.time = time;
         this.player = player;
         this.word = word;
+        this.score = score;
     }
     
-    public Session(Integer time, Player player, Word word) {
+    public Session(Integer time, Player player, Word word,Integer score) {
         this.id = this.hashCode();
         this.time = time;
         this.player = player;
         this.word = word;
+        this.score = score;
     }
     public Integer getId() {
         return id;

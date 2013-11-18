@@ -159,7 +159,27 @@ public class PlayerDAO implements GenericDAO<Player>{
 
     @Override
     public Player buscarPorId(Integer id) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+        Connection connection = null;
+		Player player = null;
+            try{
+			connection = ConnectionHangman.getInstance().getConnection();
+			
+			String sql = "SELECT * FROM HANGMAN_DB.PLAYER WHERE IDPLAYER = ?";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+				player = new Player(result.getString("NICKNAME"),result.getString("PASSWORD"));
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar!");
+        }
+        catch ( SQLException ex) {
+            Logger.getLogger(br.mackenzie.hangman.DAO.PlayerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Não foi possível buscar!");
+        }
+        return player;
+	}
     
 }

@@ -99,7 +99,7 @@ public class SessionDAO implements GenericDAO<Session>{
             ResultSet result = select.executeQuery(sql);
             
             while(result.next()){
-                sessions.add(new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD"))));
+                sessions.add(new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")),result.getInt("SCORE")));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,7 +123,7 @@ public class SessionDAO implements GenericDAO<Session>{
             preparedStatement.setInt(1, id);
 			ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
-                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")));
+                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")),result.getInt("SCORE"));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.SessionDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,7 +152,7 @@ public class SessionDAO implements GenericDAO<Session>{
             ResultSet result = preparedStatement.executeQuery();
             
             while(result.next()){
-                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")));
+                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")),result.getInt("SCORE"));
             }
             
         } catch (ClassNotFoundException ex) {
@@ -177,7 +177,7 @@ public class SessionDAO implements GenericDAO<Session>{
             ResultSet result = preparedStatement.executeQuery();
             
             while(result.next()){
-                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")));
+                session = new Session(result.getInt("IDSESSION"),result.getInt("TIMESESSION"),new PlayerDAO().buscarPorId(result.getInt("IDPLAYER")), new WordDAO().buscarPorId(result.getInt("IDWORD")),result.getInt("SCORE"));
             }
             
         } catch (ClassNotFoundException ex) {
