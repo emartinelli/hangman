@@ -18,6 +18,8 @@ public class Word {
     private static int sessions;
     private String realWord;
     private Float errorFrequency; //  = GameOvers/Sessions*100
+    private Integer acerto;
+    private Integer erro;
     List<Tip> tips = new ArrayList<Tip>();
 
     public List<Tip> getTips() {
@@ -82,5 +84,22 @@ public class Word {
     public void setErrorFrequency(Float errorFrequency) {
         this.errorFrequency = errorFrequency;
     }
+
+    public Integer getAcerto() {
+        return acerto;
+    }
+
+    public void setAcerto(Integer acerto) {
+        this.acerto = acerto;
+    }
+
+    public Integer getErro() {
+        return erro;
+    }
+
+    public void setErro(Integer erro) {
+        this.erro = erro;
+    }
+    
     
 }
