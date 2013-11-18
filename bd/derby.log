@@ -1,7 +1,7 @@
-Sat Nov 16 17:22:07 BRST 2013 : Apache Derby Servidor de Rede - 10.9.1.0 - (1344872) iniciado e pronto para aceitar conexões na porta 1527 em {3}
+Mon Nov 18 17:05:54 BRST 2013 : Apache Derby Servidor de Rede - 10.9.1.0 - (1344872) iniciado e pronto para aceitar conexões na porta 1527 em {3}
 ----------------------------------------------------------------
-Sun Nov 17 01:19:12 BRST 2013:
- Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instância a816c00e-0142-625c-f00e-00000994f08e
+Mon Nov 18 17:09:02 BRST 2013:
+ Inicializando o Derby versão The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instância a816c00e-0142-6c9a-ce57-00000994f08e
 no diretório de banco de dados C:\Users\elvio\Documents\NetBeansProjects\Hangman\bd\hangman_db  
 
 java.vendor=Oracle Corporation

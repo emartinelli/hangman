@@ -45,25 +45,25 @@ public class Controller extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            /*out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet Controlller</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + " In:" + request.getParameter("signin") + " Up:" + request.getParameter("signup") + request.getParameter("gameover")+ "</h1>");
+            out.println("<h1>Servlet Controlller at " + request.getContextPath() + " " + request.getParameter("nickname") + " In:" + request.getParameter("signin") + " Up:" + request.getParameter("signup") + request.getParameter("gameover")+ "</h1>");*/
 
             if (request.getParameter("opcao") != null && "count".equalsIgnoreCase(request.getParameter("opcao"))) {
-                out.println("if");
+                //out.println("if");
                 try {
-                    out.println("try");
+                    //out.println("try");
                     SessionDAO sessionDAO = new SessionDAO();
                     Session sessionModel;
                     sessionModel = new Session(0, new PlayerDAO().buscarPorNome(request.getParameter("player")), new WordDAO().buscarPorNome(request.getParameter("word")));
                     sessionDAO.inserir(sessionModel);
                     sessionModel.setScore("true".equalsIgnoreCase(request.getParameter("gameover")) ? 100 : 0);
                     sessionDAO.atualizar(sessionModel);
-                    out.println("aftertry");
+                    //out.println("aftertry");
                 } catch (PersistenceException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -71,12 +71,14 @@ public class Controller extends HttpServlet {
                 //out.println(request.getParameter("player"));
                 //out.println(request.getParameter("gameover"));
                 if ("true".equalsIgnoreCase(request.getParameter("gameover"))) {
-                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/gameover.jsp");
-                    requestDispatcher.forward(request, response);
+                    //RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/gameover.jsp");
+                    //requestDispatcher.forward(request, response);
+                    out.println("./main/gameover.jsp");
                     //response.sendRedirect("/main/gameover.jsp");
                 } else {
-                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/victory.jsp");
-                    requestDispatcher.forward(request, response);
+                    //RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/victory.jsp");
+                    //requestDispatcher.forward(request, response);
+                    out.println("./main/victory.jsp");
                     //response.sendRedirect("/main/victory.jsp");
                 }
             }
@@ -118,8 +120,8 @@ public class Controller extends HttpServlet {
                 }
             }
 
-            out.println("</body>");
-            out.println("</html>");
+            /*out.println("</body>");
+            out.println("</html>");*/
         } finally {
             out.close();
         }

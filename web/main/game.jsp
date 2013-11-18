@@ -128,7 +128,7 @@
                     gameover: isGameover
                 },
         function(data, status) {
-            console.log(data + status);
+            window.replace(data);
         });
     }
 </script>
