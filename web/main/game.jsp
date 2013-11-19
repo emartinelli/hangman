@@ -34,6 +34,7 @@
             </div>
             <div id="usedLettersDiv">
                 <h3 id="usedLetters"></h3>
+                <button onClick="parent.location = './../mainMenu.jsp';" class="btn btn-primary btn-large" style="min-width: 100px">Back</button>
             </div>
         </div>
 
@@ -44,7 +45,9 @@
 </html>
 <script>
     $(document).ready(function() {
-        var randomWord = '<c:out value="${word.getRandomWord(wordDAO.listarTodos()).realWord}" />'.toLowerCase();
+        '<c:set var="randomWordJ" scope="page" value="${word.getRandomWord(wordDAO.listarTodos()).realWord}"></c:set>'
+        '<c:set var="randomWordJS" scope="page" value="${randomWordJ}"></c:set>'
+        var randomWord = '<c:out value="${randomWordJS}" />'.toUpperCase();
         //var tips = ;
         var usedLetters = "";
         var finalWordContent = "";
@@ -52,16 +55,18 @@
         for (i = 0; i < randomWord.length; i++) { //Fill the secret word
             finalWordContent += "_";
         }
-
-        $("#tipButton").click(function() {
-            var tips = new Array();
+        
+        var tips = new Array();
             var i = 0;
-            console.log("Click");
-            <c:forEach var="tip" items="${tipDAO.retornaTip(wordDAO.buscarPorNome('teste0'))}">
+            //var strRandomWord = randomWord.toString();
+           console.log(randomWord.toString());
+           <c:forEach var="tip" items='${tipDAO.retornaTip(wordDAO.buscarPorNome(randomWordJS))}'>
                 tips[i] = '<c:out value="${tip.information}"/>';
                 console.log(tips[i]);
                 i++;
             </c:forEach>
+
+        $("#tipButton").click(function() {
             if (tipIndex < 2) {
                 $("#tipMsg").text(tips[tipIndex]);
                 tipIndex++;
@@ -76,7 +81,7 @@
         $("#finalWord").text(finalWordSpc.split('').join(' '));
         $('#charInput').keyup(function() {
             try {
-                var content = $('#charInput').val()[0]; //Receive value, treatment of errors and input management
+                var content = $('#charInput').val()[0].toUpperCase(); //Receive value, treatment of errors and input management
                 $('#charInput').val("");
                 $("#charError").hide();
                 if (usedLetters.indexOf(content) !== -1) //treatment of errors
@@ -128,7 +133,7 @@
                     gameover: isGameover
                 },
         function(data, status) {
-            window.replace(data);
+            window.location = data;
         });
     }
 </script>

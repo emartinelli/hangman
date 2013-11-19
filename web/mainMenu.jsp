@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,13 +25,21 @@
                 </div>
             </div>
             <div class="btn-group-vertical">
-                <button onClick="parent.location='./main/game.jsp';" class="btn btn-primary btn-large" style="min-width: 150px">New game</button>
-                <button onClick="parent.location='./main/hallOfFameMenu.jsp';" class="btn btn-primary btn-large" style="min-width: 150px">Hall of fame</button>
-                <button onClick="parent.location='./main/managementMenu.jsp';" class="btn btn-primary btn-large" style="min-width: 150px">Management</button>
-                <button class="btn btn-primary btn-large" style="min-width: 150px">Quit</button>
+                <button onClick="parent.location = './main/game.jsp';" class="btn btn-primary btn-large" style="min-width: 150px">New game</button>
+                <button onClick="parent.location = './main/hallOfFameMenu.jsp';" class="btn btn-primary btn-large" style="min-width: 150px">Hall of fame</button>
+                <%--<button onClick="parent.location='./main/managementMenu.jsp';" class="btn btn-primary btn-large" style="min-width: 150px">Management</button>--%>
+                <button id="quitbtn" class="btn btn-primary btn-large" style="min-width: 150px">Quit</button>
             </div>
         </div>
     </body>
     <script src="./lib/js/jquery-1.10.2.min.js"></script>
     <script src="./lib/js/bootstrap.min.js"></script>
 </html>
+<script>
+$(document).ready(function(){
+    $("#quitbtn").click(function() {
+        $.${session.invalidate};
+        window.location = "./index.jsp";
+    });
+}); 
+</script>

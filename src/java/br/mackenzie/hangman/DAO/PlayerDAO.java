@@ -181,7 +181,7 @@ public class PlayerDAO implements GenericDAO<Player>{
         }
         return player;
 	}
-    public List<Player> pontuacaoGeral () throws PersistenceException{
+    public List<Player> pontuacaoGeral() throws PersistenceException{
         Connection connection = null;
         List<Player> players = new ArrayList<Player>();
         try {

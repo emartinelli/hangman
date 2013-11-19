@@ -59,11 +59,8 @@ public class Controller extends HttpServlet {
                     //out.println("try");
                     SessionDAO sessionDAO = new SessionDAO();
                     Session sessionModel;
-                    sessionModel = new Session(0, new PlayerDAO().buscarPorNome(request.getParameter("player")), new WordDAO().buscarPorNome(request.getParameter("word")));
+                    sessionModel = new Session(0, new PlayerDAO().buscarPorNome(request.getParameter("player")), new WordDAO().buscarPorNome(request.getParameter("word")), "true".equalsIgnoreCase(request.getParameter("gameover")) ? -10 : 100 );
                     sessionDAO.inserir(sessionModel);
-                    sessionModel.setScore("true".equalsIgnoreCase(request.getParameter("gameover")) ? 100 : 0);
-                    sessionDAO.atualizar(sessionModel);
-                    //out.println("aftertry");
                 } catch (PersistenceException ex) {
                     Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -73,12 +70,12 @@ public class Controller extends HttpServlet {
                 if ("true".equalsIgnoreCase(request.getParameter("gameover"))) {
                     //RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/gameover.jsp");
                     //requestDispatcher.forward(request, response);
-                    out.println("./main/gameover.jsp");
+                    out.println("./gameover.jsp");
                     //response.sendRedirect("/main/gameover.jsp");
                 } else {
                     //RequestDispatcher requestDispatcher = request.getRequestDispatcher("./main/victory.jsp");
                     //requestDispatcher.forward(request, response);
-                    out.println("./main/victory.jsp");
+                    out.println("./victory.jsp");
                     //response.sendRedirect("/main/victory.jsp");
                 }
             }

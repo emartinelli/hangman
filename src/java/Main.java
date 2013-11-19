@@ -45,12 +45,15 @@ public class Main {
             Session sessionModel;
             for (Word word : new WordDAO().listarTodos()) {
                 System.out.println(word.getRealWord());
+                System.out.println(new WordDAO().retornaId(word));
+                System.out.println(new WordDAO().Acerto(new WordDAO().retornaId(word)));
+                //wordDAO.Erro(wordDAO.retornaId(word))/(wordDAO.Acerto(wordDAO.retornaId(word))+wordDAO.Erro(wordDAO.retornaId(word)));
             }
             //System.out.println(new WordDAO().buscarPorNome("teste0").getRealWord());
-            sessionModel = new Session(0, new PlayerDAO().buscarPorNome("elvio"), new WordDAO().buscarPorNome("teste0"));
-            sessionDAO.inserir(sessionModel);
-            sessionModel.setScore(0 == 0 ? 100 : 0);
-            sessionDAO.atualizar(sessionModel);
+            //sessionModel = new Session(0, new PlayerDAO().buscarPorNome("elvio"), new WordDAO().buscarPorNome("teste0"));
+            //sessionDAO.inserir(sessionModel);
+            //sessionModel.setScore(0 == 0 ? 100 : 0);
+            //sessionDAO.atualizar(sessionModel);
             //sessionDAO.listarTodos();
         } catch (PersistenceException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

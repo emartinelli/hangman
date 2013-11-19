@@ -178,47 +178,52 @@ public class WordDAO implements GenericDAO<Word>{
     
      public int Acerto(Integer id) throws PersistenceException{
             Connection connection = null;
-            
+            int cont = 0;
             try {
                 connection = ConnectionHangman.getInstance().getConnection();
 			
 		//String sql = "SELECT HANGMAN_DB.SESSION.IDWORD ,(COUNT(HANGMAN_DB.SESSION.IDWORD)) AS TOTAL FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = -10 GROUP BY HANGMAN_DB.SESSION.IDWORD ORDER BY HANGMAN_DB.SESSION.IDWORD";
-                String sql2 ="SELECT HANGMAN_DB.SESSION.IDWORD ,(COUNT(HANGMAN_DB.SESSION.IDWORD)) AS TOTAL FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = 100 AND HANGMAN_DB.SESSION.IDWORD = ?";
+                String sql2 ="SELECT (COUNT(HANGMAN_DB.SESSION.IDWORD)) AS TOTAL FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = 100 AND HANGMAN_DB.SESSION.IDWORD = ?";
                 PreparedStatement select = connection.prepareStatement(sql2);
                 select.setInt(1, id);
-                ResultSet result = select.executeQuery(sql2);
-                
+                ResultSet result = select.executeQuery();
+                while(result.next()){
+                cont = result.getInt("TOTAL");
+                }
             } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Não foi possível listar a pontuacao!");
+            throw new PersistenceException("Não foi possível listar acerto!");
         }
         catch ( SQLException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Não foi possível list a pontuacao!");
+            throw new PersistenceException("Não foi possível list acerto!");
         }
-        return id;
+        return cont;
     }
      public int Erro(Integer id) throws PersistenceException{
             Connection connection = null;
-            
+            int cont = 0;
             try {
                 connection = ConnectionHangman.getInstance().getConnection();
 			
-		String sql = "SELECT HANGMAN_DB.SESSION.IDWORD ,(COUNT(HANGMAN_DB.SESSION.IDWORD)) AS TOTAL FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = -10 AND HANGMAN_DB.SESSION.IDWORD = ?";
+		String sql = "SELECT (COUNT(HANGMAN_DB.SESSION.IDWORD)) AS TOTAL FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = -10 AND HANGMAN_DB.SESSION.IDWORD = ?";
                 //String sql2 ="SELECT HANGMAN_DB.SESSION.IDWORD ,(COUNT(HANGMAN_DB.SESSION.IDWORD)) AS TOTAL FROM HANGMAN_DB.SESSION WHERE HANGMAN_DB.SESSION.SCORE = 100 AND HANGMAN_DB.SESSION.IDWORD = ?";
                 PreparedStatement select = connection.prepareStatement(sql);
                 select.setInt(1, id);
-                ResultSet result = select.executeQuery(sql);
+                ResultSet result = select.executeQuery();
                 
-            } catch (ClassNotFoundException ex) {
+                while(result.next()){
+                cont = result.getInt("TOTAL");
+                }
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Não foi possível listar a pontuacao!");
+            throw new PersistenceException("Não foi possível listar erro!");
         }
         catch ( SQLException ex) {
             Logger.getLogger(br.mackenzie.hangman.DAO.WordDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Não foi possível list a pontuacao!");
+            throw new PersistenceException("Não foi possível listar erro!");
         }
-        return id;
+        return cont;
     }
     
      public List<Word> listarTodosJogados() throws PersistenceException {
@@ -226,7 +231,7 @@ public class WordDAO implements GenericDAO<Word>{
         List<Word> words = new ArrayList<Word>();
         try {
             connection = ConnectionHangman.getInstance().getConnection();
-            String sql = "SELECT * FROM HANGMAN_DB.WORD INNER JOIN HANGMAN_DB.SESSION ON HANGMAN_DB.WORD.IDWORD = HANGMAN_DB.SESSION.IDWORD GROUP BY HANGMAN_DB.SESSION.IDWORD";
+            String sql = "SELECT HANGMAN_DB.WORD.REALWORD FROM HANGMAN_DB.WORD INNER JOIN HANGMAN_DB.SESSION ON HANGMAN_DB.WORD.IDWORD = HANGMAN_DB.SESSION.IDWORD GROUP BY HANGMAN_DB.WORD.REALWORD ";
             Statement select = connection.createStatement();
             ResultSet result = select.executeQuery(sql);
             
